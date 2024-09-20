@@ -22,6 +22,7 @@ export default function TOC() {
         <Link
           id="wd-github"
           to="https://github.com/sean-seibel/kanbas-react-web-app"
+          target="_blank"
         >
           GitHub
         </Link>
