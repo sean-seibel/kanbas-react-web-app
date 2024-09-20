@@ -10,7 +10,10 @@ export default function Dashboard() {
             className="wd-dashboard-course-link"
             to="/Kanbas/Courses/1234/Home"
           >
-            <img src="/images/reactjs.jpg" width={200} />
+            <img
+              src="https://www.popwebdesign.net/popart_blog/wp-content/uploads/2018/03/reactjs.jpg"
+              width={200}
+            />
             <div>
               <h5>CS1234 React JS</h5>
               <p className="wd-dashboard-course-title">
