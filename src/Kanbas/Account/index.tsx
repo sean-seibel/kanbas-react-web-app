@@ -15,7 +15,9 @@ export default function Account() {
             <Routes>
               <Route
                 path="/"
-                element={<Navigate to="/Kanbas/Account/Signin" />}
+                element={
+                  <Navigate to="/Kanbas/Account/Signin" replace={true} />
+                }
               />
               <Route path="/Signin" element={<Signin />} />
               <Route path="/Profile" element={<Profile />} />
