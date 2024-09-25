@@ -104,7 +104,6 @@ export default function AssignmentEditor() {
             </table>
           </td>
         </tr>
-        {/* Complete on your own */}
       </table>
     </div>
   );

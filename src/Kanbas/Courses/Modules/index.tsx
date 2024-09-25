@@ -26,6 +26,10 @@ export default function Modules() {
           <ul className="wd-lessons">
             <li className="wd-lesson">
               <span className="wd-title">LEARNING OBJECTIVES</span>
+              <ul className="wd-content">
+                <li className="wd-content-item">HTML basics</li>
+                <li className="wd-content-item">CSS basics</li>
+              </ul>
             </li>
           </ul>
         </li>
