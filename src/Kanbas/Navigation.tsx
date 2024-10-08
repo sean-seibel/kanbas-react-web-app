@@ -1,8 +1,11 @@
 import { AiOutlineDashboard } from "react-icons/ai";
-import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
 import { FaInbox, FaRegCircleUser } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { IoMdCalendar } from "react-icons/io";
+import { GiFizzingFlask } from "react-icons/gi";
+import { HiOutlineInboxArrowDown } from "react-icons/hi2";
+
 export default function KanbasNavigation() {
   return (
     <div
@@ -17,7 +20,7 @@ export default function KanbasNavigation() {
         target="_blank"
         className="list-group-item bg-black border-0 text-center"
       >
-        Northeastern
+        <img src="images/neu.png" className="w-100 m-2"></img>
       </a>
       <Link
         to="/Kanbas/Account"
@@ -54,7 +57,7 @@ export default function KanbasNavigation() {
         className="list-group-item text-white
                    bg-black text-center border-0"
       >
-        <LiaBookSolid className="fs-1 text-danger" />
+        <IoMdCalendar className="fs-1 text-danger" />
         <br />
         Calendar
       </Link>
@@ -64,7 +67,7 @@ export default function KanbasNavigation() {
         className="list-group-item text-white
                    bg-black text-center border-0"
       >
-        <LiaBookSolid className="fs-1 text-danger" />
+        <HiOutlineInboxArrowDown className="fs-1 text-danger" />
         <br />
         Inbox
       </Link>
@@ -74,7 +77,7 @@ export default function KanbasNavigation() {
         className="list-group-item text-white
                    bg-black text-center border-0"
       >
-        <LiaBookSolid className="fs-1 text-danger" />
+        <GiFizzingFlask className="fs-1 text-danger" />
         <br />
         Labs
       </Link>
