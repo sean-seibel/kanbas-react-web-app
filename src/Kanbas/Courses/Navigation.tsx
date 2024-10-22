@@ -25,7 +25,6 @@ export default function CoursesNavigation() {
           >
             {link}
           </Link>
-          <br />
         </div>
       ))}
     </div>
