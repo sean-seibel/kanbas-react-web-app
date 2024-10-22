@@ -12,10 +12,15 @@ body * {
   }
 }
 
-.list-group.wd > .list-group-item.active {
+.list-group.wd .list-group-item.active {
   color: black;
   background-color: white;
   border-left: 3px solid black !important;
+}
+
+.list-group.wd .list-group-item.inactive {
+  background-color: white;
+  border-left: 3px solid white !important;
 }
 
 .btn-secondary {

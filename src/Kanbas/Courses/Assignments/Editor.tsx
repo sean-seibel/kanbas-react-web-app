@@ -1,16 +1,24 @@
 import { IoIosClose } from "react-icons/io";
+import { useParams } from "react-router";
+import { assignments } from "../../Database";
+import { Link } from "react-router-dom";
 
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const asg = assignments.find((a) => a._id == aid);
+  if (!asg) {
+    return <div>{`No assignment with id ${aid} :(`}</div>;
+  }
+  const dateTimeStringToDateString = (dt: string) => dt.split("T")[0];
   return (
     <div id="wd-assignments-editor">
       <div className="border-bottom p-2 pb-4">
         <label htmlFor="wd-name">Assignment Name</label>
-        <input id="wd-name" className="form-control" value="A1 - ENV + HTML" />
+        <input id="wd-name" className="form-control" value={asg.title} />
         <br />
         <br />
         <textarea id="wd-description" className="form-control">
-          The assignment is available online Submit a link to the landing page
-          of
+          {asg.description}
         </textarea>
         <br />
         <div className="row py-2">
@@ -20,7 +28,7 @@ export default function AssignmentEditor() {
             </label>
           </div>
           <div className="col-8">
-            <input id="wd-points" className="form-control" value={100} />
+            <input id="wd-points" className="form-control" value={asg.points} />
           </div>
         </div>
         <div className="row py-2">
@@ -117,7 +125,7 @@ export default function AssignmentEditor() {
               id="wd-due-date"
               className="form-control"
               type="date"
-              defaultValue={"2021-05-01"}
+              defaultValue={dateTimeStringToDateString(asg.due)}
             ></input>
             <br />
             <div className="d-flex">
@@ -129,7 +137,7 @@ export default function AssignmentEditor() {
                   id="wd-available-from"
                   className="form-control"
                   type="date"
-                  defaultValue={"2021-05-01"}
+                  defaultValue={dateTimeStringToDateString(asg.available)}
                 ></input>
               </div>
               <div>
@@ -140,7 +148,7 @@ export default function AssignmentEditor() {
                   id="wd-available-until"
                   className="form-control"
                   type="date"
-                  defaultValue={"2021-05-01"}
+                  defaultValue={dateTimeStringToDateString(asg.due)}
                 ></input>
               </div>
             </div>
@@ -148,18 +156,22 @@ export default function AssignmentEditor() {
         </div>
       </div>
       <div className="pt-4">
-        <button
-          id="wd-save-assignment-edit"
-          className="btn btn-lg btn-danger me-1 float-end"
-        >
-          Save
-        </button>
-        <button
-          id="wd-cancel-assignment-edit"
-          className="btn btn-lg btn-secondary me-1 float-end"
-        >
-          Cancel
-        </button>
+        <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
+          <button
+            id="wd-save-assignment-edit"
+            className="btn btn-lg btn-danger me-1 float-end"
+          >
+            Save
+          </button>
+        </Link>
+        <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
+          <button
+            id="wd-cancel-assignment-edit"
+            className="btn btn-lg btn-secondary me-1 float-end"
+          >
+            Cancel
+          </button>
+        </Link>
       </div>
     </div>
   );
