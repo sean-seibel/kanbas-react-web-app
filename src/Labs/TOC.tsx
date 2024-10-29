@@ -1,6 +1,8 @@
 import { useLocation } from "react-router";
 
 export default function TOC() {
+  const labs = ["Lab1", "Lab2", "Lab3", "Lab4"];
+  const path = useLocation().pathname;
   return (
     <ul className="nav nav-pills">
       <li className="nav-item">
@@ -8,39 +10,19 @@ export default function TOC() {
           Labs
         </a>
       </li>
-      <li className="nav-item">
-        <a
-          id="wd-a1"
-          href="#/Labs/Lab1"
-          className={`nav-link ${
-            useLocation().pathname.includes("Lab1") ? "active" : ""
-          }`}
-        >
-          Lab 1
-        </a>
-      </li>
-      <li className="nav-item">
-        <a
-          id="wd-a2"
-          href="#/Labs/Lab2"
-          className={`nav-link ${
-            useLocation().pathname.includes("Lab2") ? "active" : ""
-          }`}
-        >
-          Lab 2
-        </a>
-      </li>
-      <li className="nav-item">
-        <a
-          id="wd-a3"
-          href="#/Labs/Lab3"
-          className={`nav-link ${
-            useLocation().pathname.includes("Lab3") ? "active" : ""
-          }`}
-        >
-          Lab 3
-        </a>
-      </li>
+      {labs.map((labNum) => {
+        return (
+          <li className="nav-item">
+            <a
+              id="wd-a1"
+              href={`#/Labs/${labNum}`}
+              className={`nav-link ${path.includes(labNum) ? "active" : ""}`}
+            >
+              {labNum.replace("Lab", "Lab ")}
+            </a>
+          </li>
+        );
+      })}
       <li className="nav-item">
         <a id="wd-k" href="#/Kanbas" className="nav-link">
           Kanbas
