@@ -1,24 +1,54 @@
 import { IoIosClose } from "react-icons/io";
 import { useParams } from "react-router";
-import { assignments } from "../../Database";
 import { Link } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { addAssignment, updateAssignment, deleteAssignment } from "./reducer";
+import { ChangeEventHandler, useState } from "react";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const asg = assignments.find((a) => a._id == aid);
+
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+  const dispatch = useDispatch();
+
+  const asg = assignments.find((a: any) => a._id == aid);
+
+  console.log(asg);
+
+  const [thisAsg, setThisAsg] = useState(asg);
+
   if (!asg) {
     return <div>{`No assignment with id ${aid} :(`}</div>;
   }
+
+  const updateAsg = (field: string, value: any) => {
+    const newAsg: any = { ...thisAsg };
+    newAsg[field] = value;
+    setThisAsg(newAsg);
+  };
+
   const dateTimeStringToDateString = (dt: string) => dt.split("T")[0];
+
   return (
     <div id="wd-assignments-editor">
       <div className="border-bottom p-2 pb-4">
         <label htmlFor="wd-name">Assignment Name</label>
-        <input id="wd-name" className="form-control" value={asg.title} />
+        <input
+          id="wd-name"
+          className="form-control"
+          onChange={(e) => updateAsg("title", e.target.value)}
+          value={thisAsg.title}
+        />
         <br />
         <br />
-        <textarea id="wd-description" className="form-control">
-          {asg.description}
+        <textarea
+          id="wd-description"
+          className="form-control"
+          onChange={(e) => updateAsg("description", e.target.value)}
+        >
+          {thisAsg.description}
         </textarea>
         <br />
         <div className="row py-2">
@@ -28,7 +58,12 @@ export default function AssignmentEditor() {
             </label>
           </div>
           <div className="col-8">
-            <input id="wd-points" className="form-control" value={asg.points} />
+            <input
+              id="wd-points"
+              className="form-control"
+              onChange={(e) => updateAsg("points", e.target.value)}
+              value={thisAsg.points}
+            />
           </div>
         </div>
         <div className="row py-2">
@@ -125,7 +160,8 @@ export default function AssignmentEditor() {
               id="wd-due-date"
               className="form-control"
               type="date"
-              defaultValue={dateTimeStringToDateString(asg.due)}
+              onChange={(e) => updateAsg("due", e.target.value)}
+              defaultValue={dateTimeStringToDateString(thisAsg.due)}
             ></input>
             <br />
             <div className="d-flex">
@@ -137,7 +173,8 @@ export default function AssignmentEditor() {
                   id="wd-available-from"
                   className="form-control"
                   type="date"
-                  defaultValue={dateTimeStringToDateString(asg.available)}
+                  onChange={(e) => updateAsg("available", e.target.value)}
+                  defaultValue={dateTimeStringToDateString(thisAsg.available)}
                 ></input>
               </div>
               <div>
@@ -148,7 +185,10 @@ export default function AssignmentEditor() {
                   id="wd-available-until"
                   className="form-control"
                   type="date"
-                  defaultValue={dateTimeStringToDateString(asg.due)}
+                  onChange={(e) => updateAsg("availableUntil", e.target.value)}
+                  defaultValue={dateTimeStringToDateString(
+                    thisAsg.availableUntil
+                  )}
                 ></input>
               </div>
             </div>
@@ -160,6 +200,7 @@ export default function AssignmentEditor() {
           <button
             id="wd-save-assignment-edit"
             className="btn btn-lg btn-danger me-1 float-end"
+            onClick={() => dispatch(updateAssignment(thisAsg))}
           >
             Save
           </button>
@@ -168,6 +209,7 @@ export default function AssignmentEditor() {
           <button
             id="wd-cancel-assignment-edit"
             className="btn btn-lg btn-secondary me-1 float-end"
+            // onClick={saveAssignment()}
           >
             Cancel
           </button>

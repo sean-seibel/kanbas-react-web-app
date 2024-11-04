@@ -5,8 +5,8 @@ import { BsPencilSquare } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdSearch } from "react-icons/io";
 
-import { assignments } from "../../Database";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -31,6 +31,9 @@ export default function Assignments() {
       .padStart(2, "0")}${d.getHours() < 12 ? "am" : "pm"}`;
   const formatDate = (d: Date) =>
     `${months[d.getMonth()]} ${d.getDate()} at ${formatTime(d)}`;
+
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+
   return (
     <div id="wd-assignments">
       <div className="d-flex align-items-center py-4">
@@ -68,8 +71,8 @@ export default function Assignments() {
           </div>
           <ul className="list-group rounded-0">
             {assignments
-              .filter((asg) => asg.course == cid)
-              .map((asg) => {
+              .filter((asg: any) => asg.course == cid)
+              .map((asg: any) => {
                 const available = new Date(asg.available);
                 const due = new Date(asg.due);
                 return (
