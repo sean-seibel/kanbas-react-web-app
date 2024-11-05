@@ -4,7 +4,6 @@ import ModulesControls from "./ModulesControls";
 import LessonControlButtons from "./LessonControlButtons";
 
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import { useState } from "react";
 
 import { addModule, editModule, updateModule, deleteModule } from "./reducer";

@@ -28,6 +28,9 @@ export default function AssignmentEditor() {
 
   const [thisAsg, setThisAsg] = useState(asg);
 
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const isNotFaculty = currentUser.role !== "FACULTY";
+
   if (!asg) {
     return <div>{`No assignment with id ${aid} :(`}</div>;
   }
@@ -49,6 +52,7 @@ export default function AssignmentEditor() {
           className="form-control"
           onChange={(e) => updateAsg("title", e.target.value)}
           value={thisAsg.title}
+          readOnly={isNotFaculty}
         />
         <br />
         <br />
@@ -56,6 +60,7 @@ export default function AssignmentEditor() {
           id="wd-description"
           className="form-control"
           onChange={(e) => updateAsg("description", e.target.value)}
+          readOnly={isNotFaculty}
         >
           {thisAsg.description}
         </textarea>
@@ -71,6 +76,7 @@ export default function AssignmentEditor() {
               id="wd-points"
               className="form-control"
               onChange={(e) => updateAsg("points", e.target.value)}
+              readOnly={isNotFaculty}
               value={thisAsg.points}
             />
           </div>
@@ -82,7 +88,11 @@ export default function AssignmentEditor() {
             </label>
           </div>
           <div className="col-8">
-            <select id="wd-group" className="form-select">
+            <select
+              id="wd-group"
+              className="form-select"
+              disabled={isNotFaculty}
+            >
               <option value="ASSIGNMENTS">ASSIGNMENTS</option>
               <option value="QUIZZES">QUIZZES</option>
               <option value="EXAMS">EXAMS</option>
@@ -97,7 +107,11 @@ export default function AssignmentEditor() {
             </label>
           </div>
           <div className="col-8">
-            <select id="wd-display-grade-as" className="form-select">
+            <select
+              id="wd-display-grade-as"
+              className="form-select"
+              disabled={isNotFaculty}
+            >
               <option value="PERCENTAGE">Percentage</option>
               <option value="POINTS">Points</option>
               <option value="LETTER">Letter</option>
@@ -112,16 +126,30 @@ export default function AssignmentEditor() {
             </label>
           </div>
           <div className="col-8 p-3 border">
-            <select id="wd-submission-type" className="form-select">
+            <select
+              id="wd-submission-type"
+              className="form-select"
+              disabled={isNotFaculty}
+            >
               <option value="ONLINE">Online</option>
             </select>
             <strong>Online Entry Option</strong>
             <div className="d-flex align-items-center">
-              <input id="wd-text-entry" className="me-2" type="checkbox" />
+              <input
+                id="wd-text-entry"
+                className="me-2"
+                type="checkbox"
+                disabled={isNotFaculty}
+              />
               <label htmlFor="wd-text-entry">Text Entry</label>
             </div>
             <div className="d-flex align-items-center">
-              <input id="wd-website-url" className="me-2" type="checkbox" />
+              <input
+                id="wd-website-url"
+                className="me-2"
+                type="checkbox"
+                disabled={isNotFaculty}
+              />
               <label htmlFor="wd-website-url">Website URL</label>
             </div>
             <div className="d-flex align-items-center">
@@ -129,6 +157,7 @@ export default function AssignmentEditor() {
                 id="wd-media-recordings"
                 className="me-2"
                 type="checkbox"
+                disabled={isNotFaculty}
               />
               <label htmlFor="wd-media-recordings">Media Recordings</label>
             </div>
@@ -137,11 +166,17 @@ export default function AssignmentEditor() {
                 id="wd-student-annotation"
                 className="me-2"
                 type="checkbox"
+                disabled={isNotFaculty}
               />
               <label htmlFor="wd-student-annotation">Student Annotation</label>
             </div>
             <div className="d-flex align-items-center">
-              <input id="wd-file-upload" className="me-2" type="checkbox" />
+              <input
+                id="wd-file-upload"
+                className="me-2"
+                type="checkbox"
+                disabled={isNotFaculty}
+              />
               <label htmlFor="wd-file-upload">File Upload</label>
             </div>
           </div>
@@ -160,6 +195,7 @@ export default function AssignmentEditor() {
               id="wd-assign-to"
               className="form-control"
               defaultValue={"Everyone x"}
+              readOnly={isNotFaculty}
             ></textarea>
             <br />
             <label htmlFor="wd-due-date" className="row">
@@ -170,8 +206,9 @@ export default function AssignmentEditor() {
               className="form-control"
               type="date"
               onChange={(e) => updateAsg("due", e.target.value)}
+              readOnly={isNotFaculty}
               defaultValue={dateTimeStringToDateString(thisAsg.due)}
-            ></input>
+            />
             <br />
             <div className="d-flex">
               <div className="me-3">
@@ -183,8 +220,9 @@ export default function AssignmentEditor() {
                   className="form-control"
                   type="date"
                   onChange={(e) => updateAsg("available", e.target.value)}
+                  readOnly={isNotFaculty}
                   defaultValue={dateTimeStringToDateString(thisAsg.available)}
-                ></input>
+                />
               </div>
               <div>
                 <label htmlFor="wd-available-until">
@@ -195,37 +233,40 @@ export default function AssignmentEditor() {
                   className="form-control"
                   type="date"
                   onChange={(e) => updateAsg("availableUntil", e.target.value)}
+                  readOnly={isNotFaculty}
                   defaultValue={dateTimeStringToDateString(
                     thisAsg.availableUntil
                   )}
-                ></input>
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="pt-4">
-        <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
-          <button
-            id="wd-save-assignment-edit"
-            className="btn btn-lg btn-danger me-1 float-end"
-            onClick={() => {
-              if (aid === "new") {
-                dispatch(addAssignment(thisAsg));
-              } else {
-                dispatch(updateAssignment(thisAsg));
-              }
-            }}
-          >
-            Save
-          </button>
-        </Link>
+        {!isNotFaculty && (
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
+            <button
+              id="wd-save-assignment-edit"
+              className="btn btn-lg btn-danger me-1 float-end"
+              onClick={() => {
+                if (aid === "new") {
+                  dispatch(addAssignment(thisAsg));
+                } else {
+                  dispatch(updateAssignment(thisAsg));
+                }
+              }}
+            >
+              Save
+            </button>
+          </Link>
+        )}
         <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
           <button
             id="wd-cancel-assignment-edit"
             className="btn btn-lg btn-secondary me-1 float-end"
           >
-            Cancel
+            {isNotFaculty ? "Exit" : "Cancel"}
           </button>
         </Link>
       </div>

@@ -41,36 +41,37 @@ export default function Assignments() {
   const [toDelete, setToDelete] = useState(assignments[0]);
   const dispatch = useDispatch();
 
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const isFaculty = currentUser.role === "FACULTY";
+
   return (
     <div id="wd-assignments">
       <div className="d-flex align-items-center py-4">
-        <div className="">
-          <label className="border d-flex align-items-center">
-            <IoMdSearch className="fs-4 mx-2" />
-            <input
-              id="wd-search-assignment"
-              className="border-0 fs-4"
-              placeholder="Search..."
-            />
-          </label>
-        </div>
-        <div className="ms-auto">
-          <button
-            id="wd-add-assignment-group"
-            className="btn btn-lg btn-secondary me-1"
-          >
-            <BsPlus className="fs-3" /> Group
-          </button>
-        </div>
-        <div className="">
-          <Link
-            to={`/Kanbas/Courses/${cid}/Assignments/new`}
-            id="wd-add-assignment"
-            className="btn btn-lg btn-danger me-1"
-          >
-            <BsPlus className="fs-3" /> Assignment
-          </Link>
-        </div>
+        <label className="border d-flex align-items-center">
+          <IoMdSearch className="fs-4 mx-2" />
+          <input
+            id="wd-search-assignment"
+            className="border-0 fs-4"
+            placeholder="Search..."
+          />
+        </label>
+        {isFaculty && (
+          <div className="d-flex ms-auto">
+            <button
+              id="wd-add-assignment-group"
+              className="btn btn-lg btn-secondary me-1"
+            >
+              <BsPlus className="fs-3" /> Group
+            </button>
+            <Link
+              to={`/Kanbas/Courses/${cid}/Assignments/new`}
+              id="wd-add-assignment"
+              className="btn btn-lg btn-danger me-1"
+            >
+              <BsPlus className="fs-3" /> Assignment
+            </Link>
+          </div>
+        )}
       </div>
       <ul id="wd-assignment-list" className="list-group rounded-0">
         <li className="list-group-item p-0 mb-5 fs-5 border-gray">
