@@ -13,9 +13,18 @@ export default function AssignmentEditor() {
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
 
-  const asg = assignments.find((a: any) => a._id == aid);
-
-  console.log(asg);
+  const asg =
+    aid === "new"
+      ? {
+          title: "New Assignment",
+          course: cid,
+          available: "2021-05-06T00:00:00",
+          due: "2021-05-13T23:59:00",
+          availableUntil: "2021-05-13T23:59:00",
+          points: 100,
+          description: "Assignment Description",
+        }
+      : assignments.find((a: any) => a._id == aid);
 
   const [thisAsg, setThisAsg] = useState(asg);
 
@@ -200,7 +209,13 @@ export default function AssignmentEditor() {
           <button
             id="wd-save-assignment-edit"
             className="btn btn-lg btn-danger me-1 float-end"
-            onClick={() => dispatch(updateAssignment(thisAsg))}
+            onClick={() => {
+              if (aid === "new") {
+                dispatch(addAssignment(thisAsg));
+              } else {
+                dispatch(updateAssignment(thisAsg));
+              }
+            }}
           >
             Save
           </button>
@@ -209,7 +224,6 @@ export default function AssignmentEditor() {
           <button
             id="wd-cancel-assignment-edit"
             className="btn btn-lg btn-secondary me-1 float-end"
-            // onClick={saveAssignment()}
           >
             Cancel
           </button>

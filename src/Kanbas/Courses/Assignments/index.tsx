@@ -6,7 +6,11 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdSearch } from "react-icons/io";
 
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import AssignmentDeleteDialog from "./AssignmentDeleter";
+import { useState } from "react";
+import { deleteAssignment } from "./reducer";
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -34,6 +38,9 @@ export default function Assignments() {
 
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
+  const [toDelete, setToDelete] = useState(assignments[0]);
+  const dispatch = useDispatch();
+
   return (
     <div id="wd-assignments">
       <div className="d-flex align-items-center py-4">
@@ -56,9 +63,13 @@ export default function Assignments() {
           </button>
         </div>
         <div className="">
-          <button id="wd-add-assignment" className="btn btn-lg btn-danger me-1">
+          <Link
+            to={`/Kanbas/Courses/${cid}/Assignments/new`}
+            id="wd-add-assignment"
+            className="btn btn-lg btn-danger me-1"
+          >
             <BsPlus className="fs-3" /> Assignment
-          </button>
+          </Link>
         </div>
       </div>
       <ul id="wd-assignment-list" className="list-group rounded-0">
@@ -73,8 +84,6 @@ export default function Assignments() {
             {assignments
               .filter((asg: any) => asg.course == cid)
               .map((asg: any) => {
-                const available = new Date(asg.available);
-                const due = new Date(asg.due);
                 return (
                   <li className="wd-assignment-list-item d-flex align-items-center list-group-item p-3 ps-1">
                     <div className="p-2">
@@ -97,13 +106,22 @@ export default function Assignments() {
                       <b>Due</b> {formatDate(new Date(asg.due))} | {asg.points}{" "}
                       pts
                     </div>
-                    <AssignmentControlButtons />
+                    <AssignmentControlButtons
+                      onDelete={() => {
+                        setToDelete(asg);
+                      }}
+                    />
                   </li>
                 );
               })}
           </ul>
         </li>
       </ul>
+      <AssignmentDeleteDialog
+        dialogTitle={"Delete Assignment"}
+        assignmentName={toDelete.title}
+        deleteAssignment={() => dispatch(deleteAssignment(toDelete._id))}
+      />
     </div>
   );
 }

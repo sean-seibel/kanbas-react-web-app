@@ -15,7 +15,7 @@ export default function Courses({ courses }: { courses: any[] }) {
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
         {course && course.name}
-        <span className="text-secondary">&gt; {pathname.split("/")[4]}</span>
+        <span className="text-secondary"> &gt; {pathname.split("/")[4]}</span>
       </h2>
       <hr />
       <div className="d-flex">

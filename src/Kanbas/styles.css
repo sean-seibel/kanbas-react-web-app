@@ -41,3 +41,6 @@ body * {
 .wd-assignment-list-item {
   border-left: 3px solid green !important;
 }
+.wd-clickable {
+  cursor: pointer;
+}
