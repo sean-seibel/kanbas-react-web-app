@@ -8,6 +8,8 @@ import { useState } from "react";
 import * as db from "./Database";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import CourseRoute from "./Courses/CourseRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { enroll } from "./Courses/People/enrollment_reducer";
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>(db.courses);
   const [course, setCourse] = useState<any>({
@@ -19,9 +21,18 @@ export default function Kanbas() {
     image: "/images/reactjs.jpg",
     description: "New Description",
   });
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const dispatch = useDispatch();
   const addNewCourse = () => {
     const newCourse = { ...course, _id: new Date().getTime().toString() };
     setCourses([...courses, { ...course, ...newCourse }]);
+    dispatch(
+      // automatically enroll the faculty in the course they made so they can see and edit it
+      enroll({
+        user: currentUser._id,
+        course: newCourse._id,
+      })
+    );
   };
   const deleteCourse = (courseId: string) => {
     setCourses(courses.filter((course) => course._id !== courseId));
