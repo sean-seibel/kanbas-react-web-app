@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 
 export default function TOC() {
-  const labs = ["Lab1", "Lab2", "Lab3", "Lab4"];
+  const labs = ["Lab1", "Lab2", "Lab3", "Lab4", "Lab5"];
   const path = useLocation().pathname;
   return (
     <ul className="nav nav-pills">
