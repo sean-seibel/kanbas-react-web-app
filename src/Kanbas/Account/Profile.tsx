@@ -10,6 +10,7 @@ export default function Profile() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const updateProfile = async () => {
     const updatedProfile = await client.updateUser(profile);
+    alert(`setting user to ${JSON.stringify(updatedProfile)}`);
     dispatch(setCurrentUser(updatedProfile));
   };
   const fetchProfile = () => {
