@@ -9,8 +9,11 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AssignmentDeleteDialog from "./AssignmentDeleter";
-import { useState } from "react";
-import { deleteAssignment } from "./reducer";
+import { useEffect, useState } from "react";
+import { addAssignment, deleteAssignment, setAssignments } from "./reducer";
+
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function Assignments() {
   const { cid } = useParams();
@@ -38,8 +41,22 @@ export default function Assignments() {
 
   const { assignments } = useSelector((state: any) => state.assignmentsReducer);
 
-  const [toDelete, setToDelete] = useState(assignments[0]);
   const dispatch = useDispatch();
+
+  const fetchAssignments = async () => {
+    const assignments_ = await coursesClient.findAssignmentsForCourse(
+      cid as string
+    );
+    // alert(JSON.stringify(assignments_));
+    dispatch(setAssignments(assignments_));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const [toDelete, setToDelete] = useState<any>({
+    title: "Assignment to delete",
+  });
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser.role === "FACULTY";
@@ -83,7 +100,7 @@ export default function Assignments() {
           </div>
           <ul className="list-group rounded-0">
             {assignments
-              .filter((asg: any) => asg.course == cid)
+              // .filter((asg: any) => asg.course == cid)
               .map((asg: any) => {
                 return (
                   <li className="wd-assignment-list-item d-flex align-items-center list-group-item p-3 ps-1">
@@ -121,7 +138,10 @@ export default function Assignments() {
       <AssignmentDeleteDialog
         dialogTitle={"Delete Assignment"}
         assignmentName={toDelete.title}
-        deleteAssignment={() => dispatch(deleteAssignment(toDelete._id))}
+        deleteAssignment={() => {
+          assignmentsClient.deleteAssignmentRequest(toDelete._id);
+          dispatch(deleteAssignment(toDelete._id));
+        }}
       />
     </div>
   );
