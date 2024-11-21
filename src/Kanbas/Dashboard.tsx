@@ -7,6 +7,7 @@ import { enroll, unenroll } from "./Courses/People/enrollment_reducer";
 
 export default function Dashboard({
   courses,
+  allCourses,
   course,
   setCourse,
   addNewCourse,
@@ -14,6 +15,7 @@ export default function Dashboard({
   updateCourse,
 }: {
   courses: any[];
+  allCourses: any[];
   course: any;
   setCourse: (course: any) => void;
   addNewCourse: () => void;
@@ -24,13 +26,8 @@ export default function Dashboard({
   const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
   const dispatch = useDispatch();
   const [showingAll, setShowingAll] = useState(false);
-  const enrolledCourses = courses.filter((course) =>
-    enrollments.some(
-      (enrollment: any) =>
-        enrollment.user === currentUser._id && enrollment.course === course._id
-    )
-  );
-  const unenrolledCourses = courses.filter(
+  const enrolledCourses = courses;
+  const unenrolledCourses = allCourses.filter(
     (course) =>
       !enrollments.some(
         (enrollment: any) =>
