@@ -115,7 +115,7 @@ export default function Kanbas() {
               path="/Courses/:cid/*"
               element={
                 <ProtectedRoute>
-                  <CourseRoute>
+                  <CourseRoute courses={courses}>
                     <Courses courses={courses} />
                   </CourseRoute>
                 </ProtectedRoute>
