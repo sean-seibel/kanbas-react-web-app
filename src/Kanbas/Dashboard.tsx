@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 //   setEnrollments,
 //   unenroll,
 // } from "./Courses/People/enrollment_reducer";
-import * as userClient from "./Account/client"
+import * as userClient from "./Account/client";
 
 export default function Dashboard({
   courses,
@@ -60,10 +60,7 @@ export default function Dashboard({
 
   const unenrolledCourses = allCourses.filter(
     (course) =>
-      !courses.some(
-        (otherCourse: any) =>
-          otherCourse._id === course._id
-      )
+      !courses.some((otherCourse: any) => otherCourse._id === course._id)
   );
 
   const courseCard = (course: any, isFaculty: boolean, isEnrolled: boolean) => (
@@ -110,7 +107,7 @@ export default function Dashboard({
               </div>
             )}
             {!isFaculty &&
-              isEnrolled ? (
+              (isEnrolled ? (
                 <div>
                   <button className="btn btn-primary"> Go </button>
                   <button
@@ -127,13 +124,13 @@ export default function Dashboard({
                 <button
                   onClick={(event) => {
                     event.preventDefault();
-                    enrollUser(course._id)
+                    enrollUser(course._id);
                   }}
                   className="btn btn-success"
                 >
                   Enroll
                 </button>
-              )}
+              ))}
           </div>
         </Link>
       </div>
@@ -201,8 +198,13 @@ export default function Dashboard({
       <hr />
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
-          {enrolledCourses.map((course) => courseCard(course, currentUser.role === "FACULTY", true))}
-          {showingAll && unenrolledCourses.map((course) => courseCard(course, currentUser.role === "FACULTY", false))}
+          {enrolledCourses.map((course) =>
+            courseCard(course, currentUser.role === "FACULTY", true)
+          )}
+          {showingAll &&
+            unenrolledCourses.map((course) =>
+              courseCard(course, currentUser.role === "FACULTY", false)
+            )}
         </div>
       </div>
     </div>
