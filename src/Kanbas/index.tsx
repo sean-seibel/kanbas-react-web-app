@@ -8,12 +8,14 @@ import { useEffect, useState } from "react";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import CourseRoute from "./Courses/CourseRoute";
 import { useDispatch, useSelector } from "react-redux";
-import { enroll } from "./Courses/People/enrollment_reducer";
+// import { enroll } from "./Courses/People/enrollment_reducer";
 import Session from "./Account/Session";
 
 import * as client from "./Courses/client";
 import * as userClient from "./Account/client";
 import * as courseClient from "./Courses/client";
+import * as enrollmentClient from "./Courses/People/enrollment_client";
+// import * as enrollmentClient from "./Courses/People/enrollment_client"
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -42,18 +44,19 @@ export default function Kanbas() {
     fetchCourses();
   }, [currentUser]);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const addNewCourse = async () => {
     const newCourse = await userClient.createCourse(course);
     setCourses([...courses, newCourse]);
     setAllCourses([...allCourses, newCourse]);
-    dispatch(
-      // automatically enroll the faculty in the course they made so they can see and edit it
-      enroll({
-        user: currentUser._id,
-        course: newCourse._id,
-      })
-    );
+    // dispatch(
+    //   // automatically enroll the faculty in the course they made so they can see and edit it
+    //   // (new back end does this auto, but we update in frontend)
+    //   enroll({
+    //     user: currentUser._id,
+    //     course: newCourse._id,
+    //   })
+    // );
   };
   const deleteCourse = async (courseId: string) => {
     const status = await courseClient.deleteCourse(courseId);
@@ -71,6 +74,17 @@ export default function Kanbas() {
       })
     );
   };
+
+  const enrollUser = (cid: string) => {
+    enrollmentClient.enrollRequest(currentUser._id, cid);
+    setCourses([...courses, allCourses.find((c) => c._id === cid)]);
+  };
+
+  const unenrollUser = (cid: string) => {
+    enrollmentClient.unenrollRequest(currentUser._id, cid);
+    setCourses(courses.filter((c) => c._id !== cid));
+  };
+
   return (
     <Session>
       <div id="wd-kanbas">
@@ -86,6 +100,8 @@ export default function Kanbas() {
                   <Dashboard
                     courses={courses}
                     allCourses={allCourses}
+                    enrollUser={enrollUser}
+                    unenrollUser={unenrollUser}
                     course={course}
                     setCourse={setCourse}
                     addNewCourse={addNewCourse}
