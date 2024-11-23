@@ -253,8 +253,8 @@ export default function AssignmentEditor() {
               className="btn btn-lg btn-danger me-1 float-end"
               onClick={() => {
                 if (aid === "new") {
-                  courseClient.createAssignmentForCourse(cid!, thisAsg); // yeah we're gonna have a cid
-                  dispatch(addAssignment(thisAsg));
+                  const a = courseClient.createAssignmentForCourse(cid!, thisAsg); // yeah we're gonna have a cid
+                  dispatch(addAssignment(a));
                 } else {
                   assignmentClient.updateAssignmentRequest(thisAsg); // yeah we're gonna have a aid
                   dispatch(updateAssignment(thisAsg));

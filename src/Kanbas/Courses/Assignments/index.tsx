@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AssignmentDeleteDialog from "./AssignmentDeleter";
 import { useEffect, useState } from "react";
-import { addAssignment, deleteAssignment, setAssignments } from "./reducer";
+import { deleteAssignment, setAssignments } from "./reducer";
 
 import * as coursesClient from "../client";
 import * as assignmentsClient from "./client";
