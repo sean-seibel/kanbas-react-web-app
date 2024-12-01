@@ -46,17 +46,9 @@ export default function Kanbas() {
 
   // const dispatch = useDispatch();
   const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse(course);
+    const newCourse = await userClient.createCourse(course); // a6 says to move the function being invoked here to the course client, but there's no good reason to. leaving this as is
     setCourses([...courses, newCourse]);
     setAllCourses([...allCourses, newCourse]);
-    // dispatch(
-    //   // automatically enroll the faculty in the course they made so they can see and edit it
-    //   // (new back end does this auto, but we update in frontend)
-    //   enroll({
-    //     user: currentUser._id,
-    //     course: newCourse._id,
-    //   })
-    // );
   };
   const deleteCourse = async (courseId: string) => {
     const status = await courseClient.deleteCourse(courseId);

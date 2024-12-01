@@ -32,31 +32,10 @@ export default function Dashboard({
   updateCourse: () => void;
 }) {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
-  // const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
-  const dispatch = useDispatch();
 
   const [showingAll, setShowingAll] = useState(false);
   const enrolledCourses = courses;
   console.log("courses1", enrolledCourses);
-
-  // const fetchEnrollments = async () => {
-  //   const enrolls = (await userClient.findMyCourses()).map((c: any) => {
-  //     return { user: currentUser._id, course: c._id };
-  //   });
-  //   console.log("courses", enrolledCourses);
-  //   console.log("enrolls", JSON.stringify(enrolls));
-  //   dispatch(setEnrollments(enrolls));
-  // };
-  // useEffect(() => {
-  //   fetchEnrollments();
-  // }, []);
-
-  // const enrolls = enrolledCourses.map((c) => {
-  //   return { user: currentUser._id, course: c._id };
-  // });
-  // console.log("courses", enrolledCourses);
-  // console.log("enrolls", JSON.stringify(enrolls));
-  // dispatch(setEnrollments(enrolls));
 
   const unenrolledCourses = allCourses.filter(
     (course) =>
