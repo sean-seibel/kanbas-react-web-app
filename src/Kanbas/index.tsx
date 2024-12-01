@@ -34,6 +34,8 @@ export default function Kanbas() {
     try {
       const courses = await userClient.findMyCourses();
       const allCourses = await courseClient.fetchAllCourses();
+      console.log("COURSES --", courses);
+      console.log("allCOURSES --", allCourses);
       setCourses(courses);
       setAllCourses(allCourses);
     } catch (error) {
